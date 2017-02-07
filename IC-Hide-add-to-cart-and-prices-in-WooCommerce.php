@@ -31,9 +31,10 @@ if (! defined('ABSPATH')) {
 
 require ('settings.php');
 
-// Check if WooCommerce is active
+// Check if WooCommerce is active and or if Multisite is active
  
-if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) 
+    || array_key_exists('woocommerce/woocommerce.php', get_site_option('active_sitewide_plugins')) ) {
 
 
 // Deactivate WooCommerce buttons for every product
