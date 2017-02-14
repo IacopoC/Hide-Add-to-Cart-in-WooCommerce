@@ -4,7 +4,7 @@ Plugin Name: IC Hide Add to Cart and prices in WooCommerce
 Plugin URI: http://iacopocutino.it/ic-hide-add-to-cart-plugin/
 Description: A simple plugin useful to hide add to cart buttons and prices from WooCommerce sites.
 Author: Iacopo C
-Version: 1.0
+Version: 1.1
 Author URI: http://iacopocutino.it
 License: GNU General Public License v3.0
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
