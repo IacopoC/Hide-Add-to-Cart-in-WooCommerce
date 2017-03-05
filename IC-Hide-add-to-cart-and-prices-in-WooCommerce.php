@@ -2,9 +2,9 @@
 /*
 Plugin Name: IC Hide Add to Cart and prices in WooCommerce
 Plugin URI: http://iacopocutino.it/ic-hide-add-to-cart-plugin/
-Description: A simple plugin useful to hide add to cart buttons and prices from WooCommerce sites.
+Description: A simple plugin useful to hide add to cart buttons and prices from WooCommerce sites. Requires WooCommerce plugin.
 Author: Iacopo C
-Version: 1.1
+Version: 1.2
 Author URI: http://iacopocutino.it
 License: GNU General Public License v3.0
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -23,6 +23,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see http://www.gnu.org/licenses/gpl-3.0.html.
 */
 
+
 if (! defined('ABSPATH')) {
     exit();
 }
@@ -31,10 +32,23 @@ if (! defined('ABSPATH')) {
 
 require ('settings.php');
 
-// Check if WooCommerce is active and or if Multisite is active
- 
-if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) 
-    || array_key_exists('woocommerce/woocommerce.php', get_site_option('active_sitewide_plugins')) ) {
+// Add warning banner if the plugin is active but WooCommerce is inactive
+
+function ic_hc_error_notice() {
+  
+  if( !class_exists('woocommerce')) {
+    ?>
+    <div class="error notice">
+        <p><?php _e( 'IC Hide add to Cart and prices require WooCommerce, activate WooCommerce to use this plugin', 'ic_hd_plugin' ); ?></p>
+    </div>
+    <?php
+  }
+}
+add_action( 'admin_notices', 'ic_hc_error_notice' );
+
+// Check if WooCommerce is active or if Woocommerce Multisite configuration is enabled
+
+if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || array_key_exists('woocommerce/woocommerce.php', get_site_option('active_sitewide_plugins')) ) {
 
 
 // Deactivate WooCommerce buttons for every product
@@ -97,6 +111,7 @@ add_filter( 'woocommerce_get_price_html', 'ic_hd_remove_prices', 10, 2 );
 
  }
 
-
+ 
 }
-?>
+
+
