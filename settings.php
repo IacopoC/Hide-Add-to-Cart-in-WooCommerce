@@ -25,14 +25,14 @@ function ic_hd_settings_init(  ) {
 
 	add_settings_section(
 		'ic_pluginPage_section', 
-		__( 'Settings of the plugin', 'ic_hd' ), 
+		__( 'Settings of the plugin', 'ic_hd_plugin' ), 
 		'ic_hd_settings_section_callback', 
 		'pluginPage'
 	);
 
 	add_settings_field( 
 		'ic_checkbox_field_0', 
-		__( 'Enable/disable WooCommerce', 'ic_hd' ), 
+		__( 'Enable/disable WooCommerce', 'ic_hd_plugin' ), 
 		'ic_hd_checkbox_field_0_render', 
 		'pluginPage', 
 		'ic_pluginPage_section' 
@@ -41,7 +41,7 @@ function ic_hd_settings_init(  ) {
 
 	add_settings_field( 
 		'ic_select_field_2', 
-		__( 'Turn off WooCommerce by category', 'ic_hd' ), 
+		__( 'Turn off WooCommerce by category', 'ic_hd_plugin' ), 
 		'ic_hd_select_field_2_render', 
 		'pluginPage', 
 		'ic_pluginPage_section' 
@@ -50,7 +50,7 @@ function ic_hd_settings_init(  ) {
 
 	add_settings_field( 
 		'ic_checkbox_field_3', 
-		__( 'Turn off products prices', 'ic_hd' ), 
+		__( 'Turn off products prices', 'ic_hd_plugin' ), 
 		'ic_hd_checkbox_field_3_render', 
 		'pluginPage', 
 		'ic_pluginPage_section' 
@@ -66,7 +66,7 @@ function ic_hd_checkbox_field_0_render(  ) {
 	$options = get_option( 'ic_settings' );
 	?>
 	<input type='checkbox' name='ic_settings[ic_checkbox_field_0]' <?php if(isset($options['ic_checkbox_field_0'])) { checked( $options['ic_checkbox_field_0'], 1 ); } ?> value='1'>
-	<label><?php _e('Check to disable Add to Cart buttons','ic_hd') ?></label>
+	<label><?php _e('Check to disable Add to Cart buttons','ic_hd_plugin') ?></label>
 	<?php
 
 }
@@ -109,7 +109,7 @@ function ic_hd_checkbox_field_3_render(  ) {
 	$options = get_option( 'ic_settings' );
 	?>
 	<input type='checkbox' name='ic_settings[ic_checkbox_field_3]' <?php if(isset($options['ic_checkbox_field_3'])) { checked( $options['ic_checkbox_field_3'], 1 ); } ?> value='1'>
-	<label><?php _e('Check to disable prices','ic_hd') ?></label>
+	<label><?php _e('Check to disable prices','ic_hd_plugin') ?></label>
 	<?php
 
 }
@@ -117,7 +117,7 @@ function ic_hd_checkbox_field_3_render(  ) {
 
 function ic_hd_settings_section_callback(  ) { 
 
-	echo __( 'Check the following options to hide Add to Cart buttons and prices', 'ic_hd' );
+	echo __( 'Check the following options to hide Add to Cart buttons and prices', 'ic_hd_plugin' );
 
 }
 
@@ -135,7 +135,7 @@ function ic_hd_options_page(  ) {
     // wordpress will add the "settings-updated" $_GET parameter to the url
     if (isset($_GET['settings-updated'])) {
         // add settings saved message with the class of "updated"
-        add_settings_error('ic_hd_messages', 'ic_hd_message', __('Settings Saved', 'ic_hd'), 'updated');
+        add_settings_error('ic_hd_messages', 'ic_hd_message', __('Settings Saved', 'ic_hd_plugin'), 'updated');
     }
  
     // show error/update messages
@@ -155,5 +155,4 @@ function ic_hd_options_page(  ) {
 
 	</form>
 	<?php
-
 }
