@@ -4,7 +4,7 @@ Plugin Name: IC Hide Add to Cart and prices in WooCommerce
 Plugin URI: http://iacopocutino.it/ic-hide-add-to-cart-plugin/
 Description: A simple plugin useful to hide add to cart buttons and prices from WooCommerce sites. Requires WooCommerce plugin.
 Author: Iacopo C
-Version: 1.2
+Version: 1.3
 Author URI: http://iacopocutino.it
 License: GNU General Public License v3.0
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -32,9 +32,9 @@ if (! defined('ABSPATH')) {
 
 require ('settings.php');
 
-// Add warning banner if the plugin is active but WooCommerce is inactive
+// Add warning banner if the plugin in active but WooCommerce is inactive
 
-function ic_hc_error_notice() {
+function ic_hd_error_notice() {
   
   if( !class_exists('woocommerce')) {
     ?>
@@ -44,7 +44,7 @@ function ic_hc_error_notice() {
     <?php
   }
 }
-add_action( 'admin_notices', 'ic_hc_error_notice' );
+add_action( 'admin_notices', 'ic_hd_error_notice' );
 
 // Check if WooCommerce is active or if Woocommerce Multisite configuration is enabled
 
@@ -74,24 +74,28 @@ add_filter( 'woocommerce_is_purchasable', 'ic_hd_product_is_purchasable', 10, 2 
   	$not_purchasable_cat_ids = get_option( 'ic_settings' )['ic_select_field_2'];
 
   	$categories = get_the_terms($product->ID, 'product_cat');
-   
-    foreach($categories as $category) 
-    	{
-        if( in_array( $category->term_id, $not_purchasable_cat_ids ) )
-        {
+
+    if(is_array($categories)) {   
+
+      foreach($categories as $category) 
+    	   {
+          if( in_array( $category->term_id, $not_purchasable_cat_ids ))
+          {
             return false;
-        } 
-        return true;
-    }
+          } 
+          return true;
+        }
   
-    }
+      }
+    }  
   
   add_filter( 'woocommerce_is_purchasable', 'ic_hd_categories_off', 10, 2 );
 
 
 }
 
-// Hide prices in Woocommerce
+// Hide prices in WooCommerce
+
 
 $checkbox_prices = isset(get_option('ic_settings')['ic_checkbox_field_3']);
 
@@ -111,7 +115,44 @@ add_filter( 'woocommerce_get_price_html', 'ic_hd_remove_prices', 10, 2 );
 
  }
 
+
+
+// Hide prices in WooCommerce per categories
+
+ if( isset(get_option( 'ic_settings' )['ic_select_field_3'])) {
+
+function ic_hd_remove_prices_by_categories($price){
+
+  global $post, $product;
+  $categories = get_the_terms( $product->ID, 'product_cat' );
+
+  $not_purchasable_cat_ids = get_option( 'ic_settings' )['ic_select_field_3'];
+
+  foreach ( $categories as $category ) $categories[] = $category->term_id;  
+
+
+    if (in_array($category->term_id, $not_purchasable_cat_ids)) { 
+
+      $price = 'The price is not available'; 
+
+      return $price;
+    }
+
+    else {
+
+      return $price;
+    }
+
+}
+
+add_action('woocommerce_get_price_html','ic_hd_remove_prices_by_categories');
+add_action( 'woocommerce_variable_sale_price_html', 'ic_hd_remove_prices_by_categories');
+add_action( 'woocommerce_variable_price_html', 'ic_hd_remove_prices_by_categories');
+
+}
  
 }
 
 
+
+?>

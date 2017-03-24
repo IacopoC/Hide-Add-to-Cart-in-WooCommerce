@@ -32,7 +32,7 @@ function ic_hd_settings_init(  ) {
 
 	add_settings_field( 
 		'ic_checkbox_field_0', 
-		__( 'Enable/disable WooCommerce', 'ic_hd_plugin' ), 
+		__( 'Turn off WooCommerce', 'ic_hd_plugin' ), 
 		'ic_hd_checkbox_field_0_render', 
 		'pluginPage', 
 		'ic_pluginPage_section' 
@@ -56,6 +56,14 @@ function ic_hd_settings_init(  ) {
 		'ic_pluginPage_section' 
 	);
 
+	add_settings_field( 
+		'ic_select_field_3', 
+		__( 'Turn off products prices by category', 'ic_hd_plugin' ), 
+		'ic_hd_select_field_4_render', 
+		'pluginPage', 
+		'ic_pluginPage_section' 
+	);
+
 
 
 }
@@ -66,7 +74,7 @@ function ic_hd_checkbox_field_0_render(  ) {
 	$options = get_option( 'ic_settings' );
 	?>
 	<input type='checkbox' name='ic_settings[ic_checkbox_field_0]' <?php if(isset($options['ic_checkbox_field_0'])) { checked( $options['ic_checkbox_field_0'], 1 ); } ?> value='1'>
-	<label><?php _e('Check to disable Add to Cart buttons','ic_hd_plugin') ?></label>
+	<label><?php _e('Check to disable all Add to Cart buttons','ic_hd_plugin') ?></label>
 	<?php
 
 }
@@ -87,6 +95,11 @@ function ic_hd_select_field_2_render(  ) {
 				 );
 
 	$product_name = get_categories($args);
+
+// check if the array is empty
+	if (empty($product_name)) {
+			_e('You have no category set for products','ic_hd_plugin');
+	}
 
 	?>
 	
@@ -109,9 +122,46 @@ function ic_hd_checkbox_field_3_render(  ) {
 	$options = get_option( 'ic_settings' );
 	?>
 	<input type='checkbox' name='ic_settings[ic_checkbox_field_3]' <?php if(isset($options['ic_checkbox_field_3'])) { checked( $options['ic_checkbox_field_3'], 1 ); } ?> value='1'>
-	<label><?php _e('Check to disable prices','ic_hd_plugin') ?></label>
+	<label><?php _e('Check to disable all prices tags','ic_hd_plugin') ?></label>
 	<?php
 
+}
+
+
+// checkbox category option function for prices 
+function ic_hd_select_field_4_render(  ) { 
+
+	$options = get_option( 'ic_settings' );
+	global $woocommerce; 
+
+// loop through woocommerce categories	
+	$args = array( 
+				
+					'taxonomy' => 'product_cat',
+					'orderby'   =>'name',
+					'parent'  => 0
+				 );
+
+	$product_name = get_categories($args);
+	
+// check if the array is empty
+	if (empty($product_name)) {
+			_e('You have no category set for products','ic_hd_plugin');
+	}
+
+	?>
+	
+	<?php foreach ($product_name as $term) {
+
+		?>
+		<fieldset>
+		<input type='checkbox' name='ic_settings[ic_select_field_3][]' <?php if(isset($options['ic_select_field_3'])) { checked( in_array($term->term_id, $options['ic_select_field_3']), true); }?> value='<?php echo $term->term_id; ?>'>
+		<label><?php echo $term->name; ?></label>
+		</fieldset>
+		<?php	
+		
+	}
+	
 }
 
 
