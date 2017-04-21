@@ -1,4 +1,4 @@
-# HideAdd to Cart in WooCommerce
+# Hide Add to Cart in WooCommerce
 A simple WordPress plugin useful to hide add to cart buttons and prices from WooCommerce sites.
 # Description
 IC Hide Add to Cart and prices is useful if you want to hide add to cart buttons and prices in WooCommerce for all products or by products categories.  
