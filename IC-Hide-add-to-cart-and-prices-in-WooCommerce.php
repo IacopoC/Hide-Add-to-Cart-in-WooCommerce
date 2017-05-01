@@ -4,7 +4,7 @@ Plugin Name: IC Hide Add to Cart and prices in WooCommerce
 Plugin URI: http://iacopocutino.it/ic-hide-add-to-cart-plugin/
 Description: A simple plugin useful to hide add to cart buttons and prices from WooCommerce sites. Requires WooCommerce plugin.
 Author: Iacopo C
-Version: 1.5
+Version: 
 Author URI: http://iacopocutino.it
 License: GNU General Public License v3.0
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -28,6 +28,10 @@ if (! defined('ABSPATH')) {
     exit();
 }
 
+// Include pluggable.php to use the is_user_logged_in function
+
+include_once(ABSPATH . 'wp-includes/pluggable.php');
+
 // add settings page
 
 require ('settings.php');
@@ -49,25 +53,29 @@ add_action( 'admin_notices', 'ic_hd_error_notice' );
 // Check if WooCommerce is active or if WooCommerce Multisite configuration is enabled
 
 if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || array_key_exists('woocommerce/woocommerce.php', get_site_option('active_sitewide_plugins')) ) {
+	
 
 
 // Deactivate WooCommerce buttons for every product
 
+
 $checkbox_allproducts = isset(get_option('ic_settings')['ic_checkbox_field_0']);
-
- if ( $checkbox_allproducts == '1')   {
-
+	
+ if ($checkbox_allproducts == '1' && !is_user_logged_in())   {
+	 
 function ic_hd_product_is_purchasable( $purchasable ){
+	
         $purchasable = false;
     return $purchasable;
-}
-add_filter( 'woocommerce_is_purchasable', 'ic_hd_product_is_purchasable', 10, 2 );
 
 }
+add_filter( 'woocommerce_is_purchasable', 'ic_hd_product_is_purchasable', 10, 2 );
+}
+
 
 // Shut down WooCommerce by category
 
- if( isset(get_option( 'ic_settings' )['ic_select_field_2'])) {
+ if( isset(get_option( 'ic_settings' )['ic_select_field_2']) && !is_user_logged_in()) {
 
   function ic_hd_categories_off($purchasable, $product) {
 
@@ -99,7 +107,7 @@ add_filter( 'woocommerce_is_purchasable', 'ic_hd_product_is_purchasable', 10, 2 
 
 $checkbox_prices = isset(get_option('ic_settings')['ic_checkbox_field_3']);
 
- if ( $checkbox_prices == '1') {
+ if ( $checkbox_prices == '1' && !is_user_logged_in()) {
 
  
 function ic_hd_remove_prices( $price, $product ) {
@@ -119,7 +127,7 @@ add_filter( 'woocommerce_get_price_html', 'ic_hd_remove_prices', 10, 2 );
 
 // Hide prices in WooCommerce per categories
 
- if( isset(get_option( 'ic_settings' )['ic_select_field_3'])) {
+ if( isset(get_option( 'ic_settings' )['ic_select_field_3']) && !is_user_logged_in()) {
 
 function ic_hd_remove_prices_by_categories($price) {
 
