@@ -1,10 +1,10 @@
-=== IC Hide Add to Cart and prices in WooCommerce ===
+=== IC Hide Add to Cart and prices for not registered users ===
 Contributors: jcc9873
 Donate link: http://iacopocutino.it/ic-hide-add-to-cart-plugin/
 Tags: woocommerce, product, add to cart, price, hide button 
 Requires at least: 4.0.1
 Tested up to: 4.7.3
-Stable tag: 1.5
+Stable tag: 1.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -59,20 +59,6 @@ Yes, the plugin works in Multisite configuration, the settings can be found in t
 = 1.0 =
 * Plugin release
 
-= 1.1 =
-* Fixed issue with multisites configuration, updated readme file.
-
-= 1.2 =
-* Added warning banner if WooCommerce is not active, translation support added.
-
-= 1.3 =
-* Added per category prices feature, bug fixes.
-
-= 1.4 =
-* Bug fixes in products for WooCommerce vers. 3.0, correct typos in readme file
-
-= 1.5 =
-* Correct errors and updated readme file.
 
 
 
