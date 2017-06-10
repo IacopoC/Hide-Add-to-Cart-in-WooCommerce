@@ -4,8 +4,10 @@ Plugin Name: IC Hide Add to Cart and prices in WooCommerce
 Plugin URI: http://iacopocutino.it/ic-hide-add-to-cart-plugin/
 Description: A simple plugin useful to hide add to cart buttons and prices from WooCommerce sites. Requires WooCommerce plugin.
 Author: Iacopo C
-Version: 1.5
+Version: 1.6
 Author URI: http://iacopocutino.it
+Text Domain: ic-hide-add-to-cart
+Domain Path: /languages
 License: GNU General Public License v3.0
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -28,6 +30,15 @@ if (! defined('ABSPATH')) {
     exit();
 }
 
+
+// register language support
+
+function ic_hd_language() {
+	load_plugin_textdomain('ic-hide-add-to-cart', false, dirname( plugin_basename( __FILE__ )) . '/languages/');
+}
+add_action('init','ic_hd_language');
+
+
 // add settings page
 
 require ('settings.php');
@@ -39,7 +50,7 @@ function ic_hd_error_notice() {
   if( !class_exists('woocommerce')) {
     ?>
     <div class="error notice">
-        <p><?php _e( 'IC Hide add to Cart and prices require WooCommerce, activate WooCommerce to use this plugin', 'ic_hd_plugin' ); ?></p>
+        <p><?php _e( 'IC Hide add to Cart and prices require WooCommerce, activate WooCommerce to use this plugin', 'ic-hide-add-to-cart' ); ?></p>
     </div>
     <?php
   }
@@ -77,14 +88,14 @@ add_filter( 'woocommerce_is_purchasable', 'ic_hd_product_is_purchasable', 10, 2 
 
     if(is_array($categories)) {   
 
-      foreach($categories as $category)  {
+       foreach($categories as $category)  {
     	  
        if( in_array( $category->term_id, $not_purchasable_cat_ids )) {
           
-            return false;
-          } 
-          return true;
-        }
+          return false;
+        } 
+        return true;
+      }
   
       }
     }  
@@ -104,7 +115,7 @@ $checkbox_prices = isset(get_option('ic_settings')['ic_checkbox_field_3']);
  
 function ic_hd_remove_prices( $price, $product ) {
 
-  $price = __('The price is not available','ic_hd_plugin');
+  $price = __('The price is not available','ic-hide-add-to-cart');
 
   return $price;
 }
@@ -132,7 +143,7 @@ function ic_hd_remove_prices_by_categories($price) {
 // if categories is not an array, display the message
   if(!is_array($categories)) {
 	  
-	    $price = __('The price is not available','ic_hd_plugin');
+	    $price = __('The price is not available','ic-hide-add-to-cart');
  
     	return $price;
 	 } 
@@ -142,7 +153,7 @@ function ic_hd_remove_prices_by_categories($price) {
 
     if (in_array($category->term_id, $not_purchasable_cat_ids)) { 
 
-      $price = __('The price is not available','ic_hd_plugin'); 
+      $price = __('The price is not available','ic-hide-add-to-cart'); 
 
       return $price;
     }
