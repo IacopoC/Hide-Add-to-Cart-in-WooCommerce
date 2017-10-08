@@ -12,14 +12,14 @@ add_action( 'admin_menu', 'ic_hd_add_admin_menu' );
 add_action( 'admin_init', 'ic_hd_settings_init' );
 
 // Submenu page in WooCommerce menu
-function ic_hd_add_admin_menu(  ) { 
+function ic_hd_add_admin_menu() { 
 
 	add_submenu_page( 'woocommerce', 'IC Hide Add to Cart and prices', 'IC Hide Add to Cart and prices', 'manage_options', 'ic_hide_add_to_cart', 'ic_hd_options_page' );
 
 }
 
 
-function ic_hd_settings_init(  ) { 
+function ic_hd_settings_init() { 
 
 	register_setting( 'pluginPage', 'ic_settings' );
 
@@ -69,7 +69,7 @@ function ic_hd_settings_init(  ) {
 }
 
 // Checkbox for disable WooCommerce
-function ic_hd_checkbox_field_0_render(  ) { 
+function ic_hd_checkbox_field_0_render() { 
 
 	$options = get_option( 'ic_settings' );
 	?>
@@ -81,7 +81,7 @@ function ic_hd_checkbox_field_0_render(  ) {
 
 
 // Checkbox category option function 
-function ic_hd_select_field_2_render(  ) { 
+function ic_hd_select_field_2_render() { 
 
 	$options = get_option( 'ic_settings' );
 	global $woocommerce; 
@@ -117,7 +117,7 @@ function ic_hd_select_field_2_render(  ) {
 }
 
 // Checkbox for hide prices in WooCommerce
-function ic_hd_checkbox_field_3_render(  ) { 
+function ic_hd_checkbox_field_3_render() { 
 
 	$options = get_option( 'ic_settings' );
 	?>
@@ -129,7 +129,7 @@ function ic_hd_checkbox_field_3_render(  ) {
 
 
 // Checkbox category option function for prices 
-function ic_hd_select_field_4_render(  ) { 
+function ic_hd_select_field_4_render() { 
 
 	$options = get_option( 'ic_settings' );
 	global $woocommerce; 
@@ -165,14 +165,14 @@ function ic_hd_select_field_4_render(  ) {
 }
 
 
-function ic_hd_settings_section_callback(  ) { 
+function ic_hd_settings_section_callback() { 
 
 	echo __( 'Check the following options to hide Add to Cart buttons and prices', 'ic-hide-add-to-cart' );
 
 }
 
 
-function ic_hd_options_page(  ) { 
+function ic_hd_options_page() { 
 
  // check user capabilities
     if (!current_user_can('manage_options')) {
@@ -206,3 +206,22 @@ function ic_hd_options_page(  ) {
 	</form>
 	<?php
 }
+
+
+// Footer admin custom text for plugin page
+
+function ic_hd_footer_admin_text () {
+
+  $current_screen = get_current_screen();
+
+    if( $current_screen ->id === "woocommerce_page_ic_hide_add_to_cart" ) {
+
+		$custom_footer_text = sprintf(__('Thanks for using <a href="%s" target="_blank">IC Hide Add to Cart and prices in WooCommerce</a>','ic-hide-add-to-cart'), __('https://wordpress.org/plugins/ic-hide-add-to-cart-and-prices-in-woocommerce/'));
+
+	return $custom_footer_text;
+
+	}
+
+}
+
+add_filter('admin_footer_text', 'ic_hd_footer_admin_text');
