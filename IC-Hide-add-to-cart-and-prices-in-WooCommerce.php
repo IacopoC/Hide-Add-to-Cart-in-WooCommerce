@@ -1,15 +1,16 @@
-<?php
 /*
 Plugin Name: IC Hide Add to Cart and prices in WooCommerce
 Plugin URI: http://iacopocutino.it/ic-hide-add-to-cart-plugin/
 Description: A simple plugin useful to hide add to cart buttons and prices from WooCommerce sites. Requires WooCommerce plugin.
 Author: Iacopo C
-Version: 1.6
+Version: 1.7
 Author URI: http://iacopocutino.it
 Text Domain: ic-hide-add-to-cart
 Domain Path: /languages
 License: GNU General Public License v3.0
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
+WC requires at least: 2.1
+WC tested up to: 3.1.1
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -50,7 +51,7 @@ function ic_hd_error_notice() {
   if( !class_exists('woocommerce')) {
     ?>
     <div class="error notice">
-        <p><?php _e( 'IC Hide add to Cart and prices require WooCommerce, activate WooCommerce to use this plugin', 'ic-hide-add-to-cart' ); ?></p>
+        <p><?php _e( 'IC Hide add to Cart and prices require WooCommerce, please activate WooCommerce to use this plugin', 'ic-hide-add-to-cart' ); ?></p>
     </div>
     <?php
   }
@@ -139,21 +140,24 @@ function ic_hd_remove_prices_by_categories($price) {
   $categories = get_the_terms( $product->get_id(), 'product_cat' );
 
   $not_purchasable_cat_ids = get_option( 'ic_settings' )['ic_select_field_3'];
+	
 
 // if categories is not an array, display the message
+	
   if(!is_array($categories)) {
 	  
-	    $price = __('The price is not available','ic-hide-add-to-cart');
+	   $price = __('The price is not available','ic-hide-add-to-cart');
  
     	return $price;
+	  
 	 } 
 
   foreach ( $categories as $category ) $categories[] = $category->term_id;  
 
 
     if (in_array($category->term_id, $not_purchasable_cat_ids)) { 
-
-      $price = __('The price is not available','ic-hide-add-to-cart'); 
+		
+	  $price = __('The price is not available','ic-hide-add-to-cart');	
 
       return $price;
     }
