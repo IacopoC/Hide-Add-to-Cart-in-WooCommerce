@@ -1,9 +1,17 @@
 <?php
 
-
 if (! defined('ABSPATH')) {
     exit();
 }
+
+
+// Loop through woocommerce categories	
+  $ic_category_args = array( 
+				
+					'taxonomy' => 'product_cat',
+					'orderby'   =>'name',
+					'parent'  => 0
+				 );
 
 // Setting API of option page
 
@@ -84,17 +92,9 @@ function ic_hd_checkbox_field_0_render() {
 function ic_hd_select_field_2_render() { 
 
 	$options = get_option( 'ic_settings' );
-	global $woocommerce; 
+	global $woocommerce, $ic_category_args; 
 
-// Loop through woocommerce categories	
-	$args = array( 
-				
-					'taxonomy' => 'product_cat',
-					'orderby'   =>'name',
-					'parent'  => 0
-				 );
-
-	$product_name = get_categories($args);
+	$product_name = get_categories($ic_category_args);
 
 // Check if the array is empty
 	if (empty($product_name)) {
@@ -132,17 +132,10 @@ function ic_hd_checkbox_field_3_render() {
 function ic_hd_select_field_4_render() { 
 
 	$options = get_option( 'ic_settings' );
-	global $woocommerce; 
+	global $woocommerce, $ic_category_args; 
 
-// Loop through WooCommerce categories	
-	$args = array( 
-				
-					'taxonomy' => 'product_cat',
-					'orderby'   =>'name',
-					'parent'  => 0
-				 );
 
-	$product_name = get_categories($args);
+	$product_name = get_categories($ic_category_args);
 	
 // Check if the array is empty
 	if (empty($product_name)) {
